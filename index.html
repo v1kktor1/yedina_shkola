@@ -16,8 +16,8 @@
         .month-title{color:#cfcfff;font-size:23px;font-weight:1000; letter-spacing: 1px;}
         .calendar-icon svg{width:35px;height:35px;fill:#cfcfff}
 
-        .top-padding {width: 100%;height: 70px;;
-        }
+        .top-padding {width: 100%;height: 30px;}
+
         /* === Calendar Scroll === */
         .days-scroll{display:flex;overflow-x:auto;white-space:nowrap;scrollbar-width:none;}
         .days-scroll::-webkit-scrollbar{display:none}
@@ -27,9 +27,8 @@
         .day span{font-size:20px; font-weight: 1000;}
 
         /* === Schedule Pages === */
-        .page-wrapper {position: relative;height: calc(100vh - 200px); overflow: hidden;
-}
-        .schedule-page{position:absolute;width:100%;height:80%;top:0;left:0;overflow-y:auto;opacity:0;pointer-events:none;transform:translateX(100%);transition:transform .35s, opacity .35s}
+        .page-wrapper {position: relative;height: calc(110vh - 200px); overflow: hidden;}
+        .schedule-page{position:absolute;width:100%;height:80%;top:0;left:0;overflow-y: auto;opacity:0;pointer-events:none;transform:translateX(100%);transition:transform .35s, opacity .35s}
         .schedule-page.active{opacity:1;pointer-events:auto;transform:translateX(0)}
         .schedule-page.no-scroll{overflow-y:hidden}
 
@@ -45,11 +44,18 @@
         .lesson-footer svg{width:25px;height:25px;margin:0 3px;fill:#bdc3ff;}
 
         /* === Bottom Nav (ЗМІНЕНО) === */
-        .bottom-nav { position: fixed;bottom: 0;left: 0;width: 100%;background: #1e1d22; z-index: 999;display: flex;justify-content: center;align-items: flex-start; height: 130px; padding-top: 5px;}
+        .bottom-nav { position: fixed;bottom: 0;left: 0;width: 98.5%;background: #1e1d22;display: flex;justify-content: center;align-items: flex-start; height: 150px; padding-top: 1px;}
 
         /* зменшена картинка */
         .footer-img img { height: 100px; width: auto; object-fit: contain; display: block; opacity: 0.9; }
         
+        .promo-img {
+            width: 90%;
+            height: auto;
+            display: block;
+            margin: 10px 0 20px;
+            border-radius: 12px;
+        }
         /* === Lesson Panel (Detail View) */
         .lesson-panel {position: fixed;top: 0;left: 0;width: 100%;max-width: 480px;height: 100vh;background:#1b1a1f;color:#bdc3ff;z-index:500;display:flex;flex-direction:column;transform: translateX(100%);transition: transform .35s ease;}
         .lesson-panel.open {transform: translateX(0);}
@@ -102,6 +108,41 @@
         #splash.hide {opacity: 0;transition: opacity .5s ease;pointer-events: none;} 
 
         .cls-link {color: #bdc3ff;text-decoration: none;}
+
+        @font-face {
+            font-family: 'Inter';
+            src: url('assets/fonts/Inter-Regular.woff2') format('woff2');
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Inter';
+            src: url('assets/fonts/Inter-Medium.woff2') format('woff2');
+            font-weight: 500;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Inter';
+            src: url('assets/fonts/Inter-SemiBold.woff2') format('woff2');
+            font-weight: 600;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Inter';
+            src: url('assets/fonts/Inter-Bold.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Inter';
+            src: url('assets/fonts/Inter-Black.woff2') format('woff2');
+            font-weight: 900;
+            font-style: normal;
+        }
     </style>
 </head>
 
@@ -148,6 +189,26 @@
         </div>
 
     </div>
+
+    <script>
+        const bannerHTML = `
+        <div class="promo-banner">
+            <img src="assets/promo.jpg" class="promo-img">
+            <div class="promo-text">
+                <div class="promo-title">Осінь не для нудьги!</div>
+                <div class="promo-sub">Навчайся разом з Brainer і отримуй круті</div>
+            </div>
+        </div>
+        `;
+
+        function insertBanner(lessonsHTML, lessonsCount) {
+            // Вставляем баннер после 5, 6 или 7 урока
+            if (lessonsCount === 5 || lessonsCount === 6 || lessonsCount === 7) {
+                lessonsHTML += bannerHTML;
+            }
+            return lessonsHTML;
+        }
+    </script>
 
     <script>
         const daysScroll = document.getElementById("daysScroll");
@@ -219,6 +280,7 @@
             ]
         };
 
+        
         /* === Генерація календаря === */
         for (let i = startDay; i <= endDay; i++) {
             const div = document.createElement("div");
@@ -298,7 +360,16 @@
                 let scrollClass = ""; 
 
                 if (lessons && lessons.length > 0) {
-                    block = lessons.map(createLessonHTML).join("");
+                    let lessonsHTML = lessons.map(createLessonHTML).join("");
+                    lessonsHTML = insertImageAfterLessons(lessonsHTML, lessons.length);
+                    block = lessonsHTML;
+
+                function insertImageAfterLessons(html, count) {
+                    if (count === 5 || count === 6 || count === 7) {
+                        html += `<img src="assets/promo.jpg" style="width:97%; margin-left: 7px;border-radius:12px;">`;
+                    }
+                return html;
+}
                 } else {
                     scrollClass = "no-scroll"; 
                     const message = isWeekend ? "Вихідний" : "Розклад за цей період відсутній";
