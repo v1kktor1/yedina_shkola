@@ -2,45 +2,13 @@
 <html lang="ua">
 <head>
     <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Єдина Школа">
-    <link rel="apple-touch-icon" href="assets/icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <link rel="apple-touch-icon" href="assets/school.png">
 
-    <link rel="manifest" href="manifest.json">
-    <link rel="icon" sizes="192x192" href="school.png">
+    <link rel="icon" sizes="192x192" href="assets/school.png">
     <meta name="theme-color" content="#1b1a1f">
     <title>Єдина Школа</title>
 
     <style>
-
-        @font-face {
-            font-family: 'Inter';
-            src: url('fonts/Inter-Regular.woff2') format('woff2');
-            font-weight: 400;
-            font-style: normal;
-            font-display: swap;
-        }
-
-        @font-face {
-            font-family: 'Inter';
-            src: url('fonts/Inter-Medium.woff2') format('woff2');
-            font-weight: 500;
-            font-style: normal;
-            font-display: swap;
-        }
-
-        @font-face {
-            font-family: 'Inter';
-            src: url('fonts/Inter-Bold.woff2') format('woff2');
-            font-weight: 700;
-            font-style: normal;
-            font-display: swap;
-        }
 
         body{margin:0;font-family:'Inter',sans-serif;background:#1b1a1f;overflow:hidden; color:#cfcfff;}
         .top-bar{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:#1b1a1f;z-index:100}
@@ -131,18 +99,6 @@
         #splash.hide {opacity: 0;transition: opacity .5s ease;pointer-events: none;} 
 
         .cls-link {color: #bdc3ff;text-decoration: none;}
-
-        /* псевдо-fullscreen для iPhone */
-        .ios-fullscreen {
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        html, body {
-            margin: 0;
-            padding: 0;
-            background: #1b1a1f;
-        }
     </style>
 </head>
 
@@ -445,41 +401,6 @@
         document.getElementById("backButton").addEventListener("click", () => {
             document.getElementById("lessonPanel").classList.remove("open");
         });
-
-        /// Эта функция пытается открыть элемент в полный экран
-        function enterFullscreen() {
-            const el = document.documentElement;
-
-            // iOS Safari не поддерживает requestFullscreen нормально.
-            // Используем webkitEnterFullscreen если доступно.
-            if (el.requestFullscreen) {
-                el.requestFullscreen();
-            } 
-            else if (el.webkitRequestFullscreen) {
-                el.webkitRequestFullscreen();
-            }
-
-            // Дополнительный фикс для iPhone
-            document.body.classList.add("ios-fullscreen");
-        }
-
-        // Запускаем fullscreen при первом касании
-        document.addEventListener(
-            "touchend",
-            function () {
-                enterFullscreen();
-            },
-            { once: true }
-        );
-
-        // Для кликов тоже
-        document.addEventListener(
-            "click",
-            function () {
-                enterFullscreen();
-            },
-            { once: true }
-        );
         
         window.addEventListener("load", () => {
             renderPages(scheduleData);
