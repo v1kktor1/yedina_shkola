@@ -1,0 +1,114 @@
+@font-face {font-family: 'Inter';src: url('assets/fonts/Inter-Regular.woff2') format('woff2');font-weight: 400;font-style: normal;}
+@font-face {font-family: 'Inter';src: url('assets/fonts/Inter-Medium.woff2') format('woff2');font-weight: 500;font-style: normal;}
+@font-face { font-family: 'Inter';src: url('assets/fonts/Inter-Bold.woff2') format('woff2');font-weight: 700;font-style: normal;}
+@font-face {font-family: 'Inter';src: url('assets/fonts/Inter-ExtraBold.woff2') format('woff2');font-weight: 800;font-style: normal;}
+@font-face {font-family: 'Inter';src: url('assets/fonts/Inter-Black.woff2') format('woff2');font-weight: 900;font-style: normal;}
+
+* { font-family: 'Inter', sans-serif; }
+
+/* === GLOBAL & LAYOUT === */
+body::before {content:""; position:fixed; top:0; left:0; width:100%; height:110px; background:#1b1a1f; z-index:5; font-family:'Inter', sans-serif;}
+body {margin:0; font-family:'Inter', sans-serif; background:#1b1a1f; color:#cfcfff; overflow:hidden;}
+.page-wrapper {position:relative; height:83.5vh; width:100%; overflow:hidden; }
+
+/* === HEADER (TOP BAR) === */
+.top-bar {display:flex; justify-content:space-between; align-items:center; padding:15px 10px; background:transparent; position:fixed; top:5px; width:98.5%; z-index:10;}
+.profile-circle {width:37.5px; height:37.5px; background:#022ab0; border-radius:50%; display:flex; justify-content:center; align-items:center; font-weight:700; color:#000; font-size:17px;}
+.month-title {color:#cfcfff; font-size:20px; font-weight:1000; letter-spacing:1px;}
+.calendar-icon svg {width:35px; height:35px; fill:#cfcfff; padding-right:15px;}
+
+/* === CALENDAR SCROLL === */
+.days-scroll {display:flex; overflow-x:auto; white-space:nowrap; scrollbar-width:none; position:fixed; top:65px; left:50%; transform:translateX(-50%); width:98.5%; max-width:500px; z-index:10; touch-action:pan-x;}
+.days-scroll::-webkit-scrollbar {display:none;}
+.day {flex:0 0 auto; width:55px; text-align:center; cursor:pointer; color:gray; padding-bottom:2px; transition:color .2s, border-bottom .2s;}
+.day.active {color:#bdc3ff; font-weight:700; border-bottom:2px solid #bdc3ff;}
+.day p {margin:0; font-size:17px; font-weight:1000;}
+.day span {font-size:17px; font-weight:1000;}
+
+/* === SCHEDULE PAGE & LESSON CARDS === */
+.schedule-page {position:absolute; width:100%; height:100%; top:0; left:0; overflow-y:auto; opacity:0; pointer-events:none; transform:translateX(100%); transition:transform .35s, opacity .35s; padding-top:105px; padding-bottom:70px; box-sizing:border-box; z-index:1;}
+.schedule-page.active {opacity:1; pointer-events:auto; transform:translateX(0);}
+.schedule-page.no-scroll {overflow-y:hidden;}
+.lesson {background:#01004f; margin:8px 6px; border-radius:9px; overflow:hidden; cursor:pointer;}
+.lesson-top {background:#bdc3ff; padding:5px; display:flex; align-items:center;}
+.lesson-num-circle {width:23px; height:23px; border-radius:40%; background:#00196c; color:#bdc3ff; display:flex; align-items:center; justify-content:center; margin-right:4px; font-size:15px; font-weight:1000;}
+.lesson-top-title {color:#00196c; font-size:18px; font-weight:1000; letter-spacing: 0.50px;}
+.hw {margin-left:auto; background:#fbb668; padding:5px 6px; border-radius:7px; font-size:11px; color:#00196c; font-weight:700;}
+.lesson-content {background:#424242; padding:6px;}
+.lesson-desc {font-size:14px; color:#cfcfff; margin-bottom:0; font-weight:500; letter-spacing:1px;}
+.lesson-footer {font-size:15px; color:#bdc3ff; display:flex; align-items:center; margin-top:15px; border-top:1px solid #555; padding-top:8px; font-weight:1000; letter-spacing:1px;}
+.lesson-footer svg {width:22px; height:22px; margin:0 3px; fill:#bdc3ff;}
+.empty-message {text-align:center; color:#bdc3ff; font-size:17px; font-weight:1000; display:flex; flex-direction:column; align-items:center; justify-content:center; height:80%; position:fixed; width:100%; bottom:60px; letter-spacing:1px;}
+.empty-message img {width:330px; height:290px;}
+
+/* === HOMEWORK BLOCKS === */
+.hw-block {background:#424242; margin:12px 0 0; border-radius:8px; overflow:hidden;}
+.hw-head {background:#fbb668; color:#100f5b; font-weight:1000; font-size:20px; padding:6px 7px; display:flex; justify-content:space-between; align-items:center;}
+.hw-head svg {width:17px; height:17px; fill:#022ab0;}
+.hw-card {padding:4px 4px; display:flex; gap:4px; font-size:14px; color:#bdc3ff;}
+.hw-card svg {width:21px; height:21px; fill:#cfcfff; margin-right:4px;}
+.hw-card.files {color:#bdc3ff; font-weight:1000; letter-spacing:1px;}
+.hw-card.files svg {fill:#bdc3ff;}
+
+/* === LESSON DETAILS PANEL === */
+.lesson-panel {position:fixed; top:0; left:0; width:100%; max-width:480px; height:100vh; background:#1b1a1f; color:#bdc3ff; z-index:500; display:flex; flex-direction:column; transform:translateX(100%); transition:transform .35s ease;}
+.lesson-panel.open {transform:translateX(0);}
+.lesson-panel-header {display:flex; align-items:center; padding:25px 10px 25px 0px; font-size:16px; font-weight:700; background:#1b1a1f; box-shadow:5px 5px 10px rgba(0, 0, 0, 0.5);}
+.lesson-panel-header .title {flex:1; text-align:center; font-size:20px; font-weight:1000; letter-spacing: 0.75px;}
+.back-btn {width:30px; height:30px; border-radius:10px; background:none; display:flex; justify-content:center; align-items:center; border:none; cursor:pointer; padding:0; color:#d1d1ff; font-size:22px; line-height:1;}
+.back-btn svg {width:60px; height:60px; stroke:#bdc3ff; fill:none;}
+.lesson-panel-content {padding:0 10px; font-size:13px; line-height:1.3; flex-grow:1; overflow-y:auto;}
+.lesson-info-block {margin:10px 0; background:#424242; border-radius:8px; padding:12px; color:#bdc3ff;}
+.lesson-info-top {display:flex; gap:8px; align-items:center; margin-bottom:6px;}
+.lesson-avatar {width:35px; height:35px; border-radius:50%; background:#49d7bd; color:#000; display:flex; justify-content:center; align-items:center; font-size:21px; font-weight:700;}
+.teacher-info {flex:1;}
+.teacher-name {font-weight:1000; color:#bdc3ff; font-size:18px;}
+.teacher-role {font-size:13px; color:#a09fa4; letter-spacing:.7px;}
+.lesson-time-room {display:flex; justify-content:center; gap:120px;}
+.lesson-time-room .inline {display:flex; align-items:center; gap:5px; font-size:14px; letter-spacing:1px; font-weight:1000;}
+.lesson-time-room svg {width:15px; height:15px; fill:#a9a8ff;}
+.lesson-theme {font-size:14px; margin-top:8px; line-height:1.3; color:#bdc3ff; letter-spacing:1px; font-weight:1000;}
+.lesson-theme b {color:#bdc3ff; font-weight:500;}
+
+/* === FOOTER (NAV) === */
+.bottom-nav {position:fixed; bottom:0; left:48.5%; transform:translateX(-50%); width:130%; background:#1d1c21; display:flex; justify-content:center; align-items:flex-end; height:auto; z-index:100;}
+.footer-img img {height:60px; width:105%; object-fit:contain; display:block; pointer-events:none; padding-bottom:60px;}
+
+/* === SPLASH SCREENS (MAIN & CHILDREN) === */
+#splash {position:fixed; inset:0; background:#000; display:flex; justify-content:center; align-items:center; z-index:9999; overflow:hidden;}
+#splash img {max-width:100vw; max-height:100vh; width:100%; height:auto; object-fit:contain; user-select:none;}
+#splash.hide {opacity:0; transition:opacity .5s ease; pointer-events:none;}
+#children-splash {position:fixed; inset:0; background:#1b1a1f; display:flex; flex-direction:column; align-items:center; z-index:9998; opacity:1; transition:opacity .5s ease; padding-top:200px; transform:translateX(0); transition:transform 0.35s ease;}
+#children-splash.hide {opacity:0; pointer-events:none; transform:translateX(100%); pointer-events:none;}
+.children-header {display:flex; justify-content:center; align-items:center; position:fixed; top:0; width:100%; padding:20px 0 10px; background:#1b1a1f; z-index:9999; box-shadow:5px 5px 10px rgba(0, 0, 0, 0.5);}
+.children-header .back-btn {position:absolute; left:10px; width:35px; height:35px; background:none; border:none; cursor:pointer; display:flex; justify-content:center; align-items:center;}
+.children-header .back-btn svg {width:28px; height:28px; stroke:#bdc3ff; fill:none;}
+.children-header .title {text-align:center; font-size:20px; font-weight:1000; color:#cfcfff; letter-spacing:1px; padding-left:30px;}
+.child-card {width:80%; max-width:250px; background:none; border:none; text-align:center; padding:0; margin-top:0; cursor:pointer; overflow:hidden;}
+.child-info-container {background:#1b1a1f; border:1.5px solid #424242; border-radius:15px;}
+.card-avatar-circle {width:80px; height:80px; border-radius:50%; background:#022ab0; color:#cfcfff; display:flex; justify-content:center; align-items:center; font-size:40px; font-weight:700; margin:0 auto 10px;}
+.child-name {font-size:20px; font-weight:1000; color:#cfcfff; margin-bottom:5px; letter-spacing:1px; background:transparent;}
+.child-school {font-size:12px; color:#cfcfff; margin:0 15px 15px; line-height:1.3; opacity:.8; letter-spacing:1px;}
+.child-login-box {background:#424242; border:1.5px solid #424242; border-radius:15px; width:100%; margin-top:20px;}
+.child-login-label {font-size:13px; color:#a09fa4; margin-bottom:3px; letter-spacing:1px;}
+.child-login-value {font-size:15px; color:#cfcfff; letter-spacing:1.5px; font-weight:1000;}
+
+/* === УТИЛИТЫ === */
+.cls-link { color:#bdc3ff; text-decoration:none; }
+*:focus { outline:none!important; }
+* { -webkit-tap-highlight-color:transparent; }
+* { scrollbar-width:none; }
+*::-webkit-scrollbar { display:none; }
+
+.teacher-right { margin-left:auto; text-align:right; }
+.teacher-right .teacher-name { font-size:17px; font-weight:1000; color:#bdc3ff; }
+.teacher-right .teacher-role-small { font-size:12px; color:#a09fa4; letter-spacing: 1px; padding-bottom: 25px; font-weight: 1000;}
+
+.lesson-theme b { font-size:15px; font-weight:1000; }
+.lesson-theme span { font-weight:400; opacity:0.9; }
+
+.hw-head { background:#fbb668; color:#100f5b; font-weight:900; letter-spacing: 0.75px; font-size:18px; padding:6px 10px; display:flex; align-items:center; justify-content:space-between; }
+.hw-head-left { display:flex; align-items:center;}
+
+.hw-card { display:flex; align-items:center; gap:5px; padding:5px 7.5px; font-size:15px; color:#bdc3ff; letter-spacing: 1px;}
+.hw-text {font-weight: 500;}
